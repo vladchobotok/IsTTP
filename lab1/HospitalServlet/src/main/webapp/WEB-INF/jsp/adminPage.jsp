@@ -25,11 +25,9 @@
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript">
 
-
         google.charts.load('current', {'packages':['corechart']});
 
         google.charts.setOnLoadCallback(drawChart);
-
 
         function drawChart() {
 
@@ -39,17 +37,45 @@
                 [ '${entry.getUser().getName()} ${entry.getUser().getSurname()}', ${sessionScope.patientService.findAllDoctorPatients(entry.getId()).size()} ],
                 </c:forEach>
             ]);
-            // Set chart options
+
             var options = {
-                'title' : 'Doctor\'s patient count', //title which will be shown right above the Google Pie Chart
-                is3D : true, //render Google Pie Chart as 3D
-                pieSliceText: 'label', //on mouse hover show label or name of the Country
-                tooltip :  {showColorCode: true}, // whether to display color code for a Country on mouse hover
-                'width' : 1000, //width of the Google Pie Chart
-                'height' : 500 //height of the Google Pie Chart
+                'title' : 'Doctor\'s patient count',
+                is3D : true,
+                pieSliceText: 'label',
+                tooltip :  {showColorCode: true},
+                'width' : 1000,
+                'height' : 500
             };
 
-            // Instantiate and draw our chart, passing in some options.
+            var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+
+            chart.draw(data, options);
+        }
+    </script>
+    <script type="text/javascript">
+
+        google.charts.load('current', {'packages':['corechart']});
+
+        google.charts.setOnLoadCallback(drawChart);
+
+        function drawChart() {
+
+            var data = google.visualization.arrayToDataTable([
+                ['Doctor', 'Count of patients'],
+                <c:forEach items="${allDoctors}" var="entry">
+                [ '${entry.getUser().getName()} ${entry.getUser().getSurname()}', ${sessionScope.patientService.findAllDoctorPatients(entry.getId()).size()} ],
+                </c:forEach>
+            ]);
+
+            var options = {
+                'title' : 'Doctor\'s patient count',
+                is3D : true,
+                pieSliceText: 'label',
+                tooltip :  {showColorCode: true},
+                'width' : 1000,
+                'height' : 500
+            };
+
             var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
 
             chart.draw(data, options);

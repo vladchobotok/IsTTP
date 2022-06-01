@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.*;
+import java.nio.file.Files;
 
 public class DownloadCard implements Command {
     @Override
@@ -45,7 +46,7 @@ public class DownloadCard implements Command {
             fileOut.close();
 
             File fileToDownload = new File(fileName);
-            InputStream in = new FileInputStream(fileToDownload);
+            InputStream in = Files.newInputStream(fileToDownload.toPath());
 
             String mimeType = new MimetypesFileTypeMap().getContentType(fileName);
 
